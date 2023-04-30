@@ -15,6 +15,8 @@ const main = async () => {
 
 main().catch((error) => console.log(error))
 
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 app.use("/", indexRouter)
 app.use("/catalog", catalogRouter)
 
