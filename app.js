@@ -1,8 +1,9 @@
+'use strict'
+
 require("dotenv").config()
 const express = require("express")
 const indexRouter = require("./routes/index")
 const catalogRouter = require("./routes/products")
-const port = process.env.PORT || 3000
 const mongoose = require("mongoose")
 const compression = require("compression")
 const helmet = require("helmet")
@@ -32,6 +33,4 @@ app.use(helmet())
 app.use("/", indexRouter)
 app.use("/products", catalogRouter)
 
-app.listen(port, () => {
-  console.log(`App listening on port ${port}`)
-})
+module.exports = app
