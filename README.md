@@ -1,6 +1,6 @@
 # Ecommerce Backend
 
-A REST API for managing an e-commerce product database. It allows CRUD operations on a MongoDB database.
+A REST API, built on **Express/Node**, for managing an e-commerce product database. It allows CRUD operations on a MongoDB database.
 
 ## Product
 
