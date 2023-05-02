@@ -35,7 +35,7 @@ Creates a new product in the database. Then redirects to the created product end
   "name": "Product name",
   "description": "Product description",
   "image_url": "Public URL of the product's image",
-  "price": "Price of the product (float, greater than 0)"
+  "price": "Price of the product (double, greater than 0)"
 }
 ```
 
@@ -49,7 +49,7 @@ Updates the product with the specified ':id' in the database. Then redirects to 
   "name": "Product name",
   "description": "Product description",
   "image_url": "Public URL of the product's image",
-  "price": "Price of the product (float, greater than 0)"
+  "price": "Price of the product (double, greater than 0)"
 }
 ```
 
