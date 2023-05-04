@@ -4,6 +4,7 @@ require("dotenv").config()
 const express = require("express")
 const indexRouter = require("./routes/index")
 const catalogRouter = require("./routes/products")
+const userRouter = require("./routes/user")
 const mongoose = require("mongoose")
 const compression = require("compression")
 const helmet = require("helmet")
@@ -19,7 +20,7 @@ const limiter = RateLimit({
 app.use(limiter)
 
 mongoose.set("strictQuery", false)
-const mongoDB = process.env.DB_URL || 'mongodb+srv://admin:admin@cluster0.pmppucv.mongodb.net/?retryWrites=true&w=majority'
+const mongoDB = process.env.DB_URL || "mongodb+srv://admin:admin@cluster0.pmppucv.mongodb.net/?retryWrites=true&w=majority"
 const main = async () => {
   await mongoose.connect(mongoDB, {dbName: 'ecommerce'})
 }
@@ -32,5 +33,6 @@ app.use(compression())
 app.use(helmet())
 app.use("/", indexRouter)
 app.use("/products", catalogRouter)
+app.use("/user", userRouter)
 
 module.exports = app

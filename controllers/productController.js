@@ -25,8 +25,7 @@ exports.createProduct = [
     .escape(),
   body("image_url", "Image URL must not be empty")
     .trim()
-    .isLength({ min: 1 })
-    .escape(),
+    .isLength({ min: 1 }),
   body("price", "Price must be a positive number")
     .isFloat({ min: 0 }),
   asyncHandler(async (req, res, next) => {
@@ -41,8 +40,8 @@ exports.createProduct = [
         price: req.body.price,
       })
 
-      await product.save()
-      res.redirect("/products/" + product._id)
+      const savedProduct = await product.save()
+      res.redirect("/products/" + savedProduct._id)
     }
   })
 ]
@@ -58,8 +57,7 @@ exports.updateProduct = [
     .escape(),
   body("image_url", "Image URL must not be empty")
     .trim()
-    .isLength({ min: 1 })
-    .escape(),
+    .isLength({ min: 1 }),
   body("price", "Price must be a positive number")
     .isFloat({ min: 0 }),
   asyncHandler(async (req, res, next) => {
