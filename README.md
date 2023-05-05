@@ -7,13 +7,32 @@ A REST API, built on **Express/Node**, for managing an e-commerce product databa
 Each item has the following structure:
 ```json
 {
-  "_id" : "Unique id of the product"
+  "_id" : "Unique id of the product",
+  "brand": {
+    "name": "Brand name",
+    "logo_url": "Public URL of the brand's logo"
+  },
   "name": "Product name",
   "description": "Product description",
   "image_url": "Public URL of the product's image",
   "price": "Price of the product"
 }
 ```
+
+## Authentication
+
+POST endpoints are protected with [JWT](https://jwt.io/) authentication. The libraries used to achieve this are [jasonwebtoken](https://github.com/auth0/node-jsonwebtoken) and [passport](https://www.passportjs.org/).
+
+That way, a **POST /user/login** enpoint is exposed, to which an allowed user (which is "**admin**") and password ("**admin**" as well) must be passed as json in the body:
+
+```json
+{
+  "user": "admin",
+  "password": "admin"
+}
+```
+
+The API will return, then, a JWT token, that must be passed in the Authorization header as a bearer token, that means in the form of "Bearer [JWT TOKEN]", to access the POST endpoints later on.
 
 ## Endpoints
 
@@ -29,23 +48,37 @@ Returns the product with the specified ':id'.
 
 Creates a new product in the database. Then redirects to the created product endpoint.
 
+A valid bearer token must be provided as the Authorization header in order to access this endpoint.
+
 #### Request body:
 ```json
 {
+  "brand": {
+    "name": "Brand name",
+    "logo_url": "Public URL of the brand's logo"
+  },
   "name": "Product name",
   "description": "Product description",
   "image_url": "Public URL of the product's image",
   "price": "Price of the product (double, greater than 0)"
 }
 ```
+
+"logo_url" can be omitted if the brand already exists in the database.
 
 ### POST /products/:id/update
 
 Updates the product with the specified ':id' in the database. Then redirects to the updated product endpoint.
 
+A valid bearer token must be provided as the Authorization header in order to access this endpoint.
+
 #### Request body:
 ```json
 {
+  "brand": {
+    "name": "Brand name",
+    "logo_url": "Public URL of the brand's logo"
+  },
   "name": "Product name",
   "description": "Product description",
   "image_url": "Public URL of the product's image",
@@ -53,9 +86,13 @@ Updates the product with the specified ':id' in the database. Then redirects to 
 }
 ```
 
+"logo_url" can be omitted if the brand already exists in the database.
+
 ### POST /products/:id/delete
 
 Deletes the product with the specified ':id' in the database.
+
+A valid bearer token must be provided as the Authorization header in order to access this endpoint.
 
 #### Request body:
 ```json
@@ -63,6 +100,10 @@ Deletes the product with the specified ':id' in the database.
   "id": "Product id"
 }
 ```
+
+### GET /brands
+
+Returns the full list of all brands as an array of brand objects.
 
 ## Public version
 
@@ -83,7 +124,7 @@ You can specify a different port by changing it in the `.env` file.
 
 ## Making a request
 
-You can make an HTTP request to the api from the console by using **curl**. Enter one of following commands, depending on the request method, replacing the "[body]" and "[URL]":
+You can make an HTTP request to the api from the console by using **curl**. Enter one of following commands, depending on the request method, replacing the "[JWT_TOKEN]", "[BODY]" and "[URL]":
 
 ### GET
 ```bash
@@ -91,6 +132,6 @@ $> curl -X GET -H "Content-Type: application/json" [URL]
 ```
 ### POST
 ```bash
-$> curl -X POST -H "Content-Type: application/json" -d [body] [URL]
+$> curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer [JWT_TOKEN]" -d [BODY] [URL]
 ```
 
